@@ -7,7 +7,7 @@ Tailwind CSS is used.
 
 ## Demo
 
-https://tiny-quokka-8fd8a2.netlify.app/course/chapter/1-chapter-1/lesson/1-introduction-to-typescript-with-vue-js-3
+https://course-app-nuxt.netlify.app/course/chapter/1-chapter-1/lesson/1-introduction-to-typescript-with-vue-js-3
 
 ## Setup
 
