@@ -1,6 +1,13 @@
-# Nuxt 3 Minimal Starter
+# Nuxt 3
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## Introduction
+
+This app made using Nuxt 3 and TypeScript<b>(not production mode)</b>. It is a course app that contains chapters and lessons. For styling,
+Tailwind CSS is used.
+
+## Demo
+
+https://tiny-quokka-8fd8a2.netlify.app/course/chapter/1-chapter-1/lesson/1-introduction-to-typescript-with-vue-js-3
 
 ## Setup
 
@@ -40,4 +47,5 @@ npm run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
 # course-app-nuxt
