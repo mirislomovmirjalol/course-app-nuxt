@@ -82,7 +82,6 @@ const toggleComplete = () => {
         Download Video
       </NuxtLink>
     </div>
-    <p class="my-4">{{ lesson.text }}</p>
     <mart-as-complete-button :model-value="isLessonComplete" @update:model-value="toggleComplete()"/>
   </div>
 </template>

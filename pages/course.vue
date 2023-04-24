@@ -4,17 +4,8 @@ const {chapters} = useCourse();
 
 <template>
   <div
-      class="p-12 bg-gray-100 w-full h-full min-h-screen flex flex-col items-center"
+      class="p-12 bg-gray-50 w-full h-full min-h-screen flex flex-col items-center"
   >
-    <div class="prose mb-12">
-      <h1>
-        <span class="font-medium">
-          Course:
-          <span class="font-bold">Mastering Nuxt 3</span>
-        </span>
-      </h1>
-    </div>
-
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div
           class="prose p-8 bg-white rounded-md flex flex-col border border-gray-300"
@@ -45,7 +36,7 @@ const {chapters} = useCourse();
       </div>
 
       <div
-          class="prose p-12 bg-white rounded-md w-full border border-gray-300"
+          class="prose p-8 bg-white rounded-md border border-gray-300 flex"
       >
         <NuxtPage/>
       </div>
