@@ -13,10 +13,6 @@
   <slot/>
 </template>
 <script setup>
-const nav = ref(false);
-const open = () => {
-  this.nav = !this.nav;
-};
 // You might choose this based on an API call or logged-in status
 const layout = "default";
 </script>
