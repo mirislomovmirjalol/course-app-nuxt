@@ -1,85 +1,9 @@
-<script setup>
-const course = useCourse();
-const route = useRoute();
-
-const chapter = computed(() => {
-  return course.chapters.find(
-      (chapter) => chapter.slug === route.params.chapterSlug
-  );
-});
-
-if (!chapter.value) {
-  throw createError({
-    statusCode: 404,
-    message: 'Chapter not found',
-  })
-}
-
-const lesson = computed(() => {
-  return chapter.value.lessons.find(
-      (lesson) => lesson.slug === route.params.lessonSlug
-  );
-});
-
-if (!lesson.value) {
-  throw createError({
-    statusCode:404,
-    message: 'Lesson not found'
-  })
-}
-
-useHead({
-  title: `${lesson.value.title} - ${chapter.value.title} | Mastering Nuxt`,
-  meta: [
-    {
-      hid: 'description',
-      name: 'description',
-      content: lesson.value.text,
-    },
-  ],
-});
-
-const progress = useState('progress', () => {
-  return [];
-});
-
-const isLessonComplete = computed(() => {
-  if (!progress.value[chapter.value.number - 1]) {
-    return false;
-  }
-  if (
-      !progress.value[chapter.value.number - 1][
-      lesson.value.number - 1
-          ]
-  ) {
-    return false;
-  }
-  return progress.value[chapter.value.number - 1][
-  lesson.value.number - 1
-      ];
-});
-
-const toggleComplete = () => {
-  if (!progress.value[chapter.value.number - 1]) {
-    progress.value[chapter.value.number - 1] = [];
-  }
-  progress.value[chapter.value.number - 1][lesson.value.number - 1] = !isLessonComplete.value;
-};
-</script>
-
 <template>
   <div>
     <p class="mt-0 uppercase font-bold text-slate-400 mb-1">
       Lesson {{ chapter.number }} - {{ lesson.number }}
     </p>
     <h2 class="my-0">{{ lesson.title }}</h2>
-    <div class="w-full">
-      <VideoPlayer
-          class="max-w-full"
-          v-if="lesson.videoId"
-          :videoId="lesson.videoId"
-      />
-    </div>
     <div class="flex space-x-4 mt-2 mb-8">
       <NuxtLink
           v-if="lesson.sourceUrl"
@@ -96,6 +20,98 @@ const toggleComplete = () => {
         Download Video
       </NuxtLink>
     </div>
-    <mart-as-complete-button :model-value="isLessonComplete" @update:model-value="toggleComplete()"/>
+    <VideoPlayer
+        v-if="lesson.videoId"
+        :videoId="lesson.videoId"
+        class="my-4"
+    />
+    <mart-as-complete-button
+        :model-value="isLessonComplete"
+        @update:model-value="toggleComplete"
+    />
   </div>
 </template>
+
+<script setup>
+const course = useCourse();
+const route = useRoute();
+
+definePageMeta({
+  validate({ params }) {
+    const course = useCourse();
+
+    const chapter = course.chapters.find(
+        (chapter) => chapter.slug === params.chapterSlug
+    );
+
+    if (!chapter) {
+      return createError({
+        statusCode: 404,
+        message: 'Chapter not found',
+      });
+    }
+
+    const lesson = chapter.lessons.find(
+        (lesson) => lesson.slug === params.lessonSlug
+    );
+
+    if (!lesson) {
+      return createError({
+        statusCode: 404,
+        message: 'Lesson not found',
+      });
+    }
+
+    return true;
+  },
+});
+
+const chapter = computed(() => {
+  return course.chapters.find(
+      (chapter) => chapter.slug === route.params.chapterSlug
+  );
+});
+
+const lesson = computed(() => {
+  return chapter.value.lessons.find(
+      (lesson) => lesson.slug === route.params.lessonSlug
+  );
+});
+
+const title = computed(() => {
+  return `${lesson.value.title} - ${course.title}`;
+});
+useHead({
+  title,
+});
+
+const progress = useLocalStorage('progress', []);
+
+const isLessonComplete = computed(() => {
+  if (!progress.value[chapter.value.number - 1]) {
+    return false;
+  }
+
+  if (
+      !progress.value[chapter.value.number - 1][
+      lesson.value.number - 1
+          ]
+  ) {
+    return false;
+  }
+
+  return progress.value[chapter.value.number - 1][
+  lesson.value.number - 1
+      ];
+});
+
+const toggleComplete = () => {
+  if (!progress.value[chapter.value.number - 1]) {
+    progress.value[chapter.value.number - 1] = [];
+  }
+
+  progress.value[chapter.value.number - 1][
+  lesson.value.number - 1
+      ] = !isLessonComplete.value;
+};
+</script>
