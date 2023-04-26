@@ -21,6 +21,13 @@ const lesson = computed(() => {
   );
 });
 
+if (!lesson.value) {
+  throw createError({
+    statusCode:404,
+    message: 'Lesson not found'
+  })
+}
+
 useHead({
   title: `${lesson.value.title} - ${chapter.value.title} | Mastering Nuxt`,
   meta: [
